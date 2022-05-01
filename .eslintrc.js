@@ -8,9 +8,7 @@ module.exports = {
     'react-app/jest',
     'plugin:react/recommended',
     'standard',
-    'prettier',
-    'prettier/@typescript-eslint',
-    'prettier/react'
+    'prettier'
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
