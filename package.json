@@ -23,9 +23,10 @@
     "eject": "react-scripts eject",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts src/",
     "lint:fix": "npm run lint -- --fix ",
-    "fmt": "prettier src/",
+    "fmt": "prettier 'src/**/*.{js,jsx,ts,tsx}'",
     "fmt:fix": "npm run fmt -- --write",
     "fix": "npm run fmt:fix && npm run lint:fix",
+    "lint-staged": "lint-staged",
     "prepare": "husky install"
   },
   "browserslist": {
@@ -51,6 +52,12 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.29.4",
     "husky": "^7.0.4",
+    "lint-staged": "^12.4.1",
     "prettier": "^2.6.2"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "npm run fix"
+    ]
   }
 }
