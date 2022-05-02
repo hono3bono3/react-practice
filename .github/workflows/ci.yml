@@ -20,4 +20,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - run: npm run deploy
+      - run: npm run build
+      - run: |
+        cd build
+        git checkout -b main
+        git add -A
+        git commit -m 'deploy'
+        git push -f git@github.com:hono3bono3/react-practice.git master:gh-pages
+
+      
