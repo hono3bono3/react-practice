@@ -21,7 +21,6 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts src/",
     "lint:fix": "npm run lint -- --fix ",
     "fmt": "prettier 'src/**/*.{js,jsx,ts,tsx}'",
