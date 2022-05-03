@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
 set -e
 
+if [ -d ./build ]; then
+    rm -rf ./build
+fi
+
 npm run build
 
 cd build
 
-git config --global user.email action@github.com
-git config --global user.name github-actions[bot]@users.noreply.github.com
-
 git init
-
 git checkout -b main
 git add -A
 git commit -m 'deploy'
