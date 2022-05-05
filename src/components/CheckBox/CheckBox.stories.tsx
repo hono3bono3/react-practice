@@ -4,7 +4,7 @@ export default {
   title: "CheckBox",
   component: CheckBox,
 };
-export const Single = () => (
+export const Basic = () => (
   <>
     <div>
       <CheckBox

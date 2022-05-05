@@ -1,16 +1,16 @@
-import React, { ChangeEventHandler } from "react";
-import styles from "./CheckBox.module.css";
+import React, { ChangeEvent } from "react";
+import "./CheckBox.css";
 
-type CheckBoxProps = {
+export type CheckBoxProps = {
   id: string;
   value: string;
   checked: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const CheckBox = ({ id, value, checked, onChange }: CheckBoxProps) => {
   return (
-    <div className={styles.title}>
+    <div className="checkbox">
       <input
         id={id}
         type="checkbox"
