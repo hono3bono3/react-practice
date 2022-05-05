@@ -1,18 +1,16 @@
 import React, { useState, ChangeEvent } from "react";
+import { getPrefectures } from "../../services/Prefecture";
 import "./Main.css";
 import {
   CheckBoxFilter,
   CheckBoxFilterProps,
 } from "../../components/CheckBoxFilter";
 
-export type MainProps = {
-  prefectures: {
-    id: string;
-    value: string;
-  }[];
-};
-
-export const Main = ({ prefectures }: MainProps) => {
+export const Main = () => {
+  const prefectures = getPrefectures().map((p) => ({
+    id: String(p.prefCode),
+    value: p.prefName,
+  }));
   const [checkedPrefectureIds, setCheckedPrefectureIds] = useState<string[]>(
     []
   );
