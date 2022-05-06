@@ -1,26 +1,43 @@
 import React, { useState, ChangeEvent } from "react";
 import "./Main.css";
+import { getPrefectures } from "../../services/Prefecture";
+import {
+  getTotalPopulationBy,
+  TotalPopulation,
+} from "../../services/PopulationComposition";
 import {
   CheckBoxFilter,
   CheckBoxFilterProps,
 } from "../../components/CheckBoxFilter";
+import { LineChart, LineChartProps } from "../../components/LineChart";
 
-export type MainProps = {
-  prefectures: {
-    id: string;
-    value: string;
-  }[];
+type Prefecture = {
+  id: string;
+  value: string;
+  totalPopulation: TotalPopulation[];
 };
 
-export const Main = ({ prefectures }: MainProps) => {
+export const Main = () => {
+  const [prefectures, setPrefectures] = useState(
+    getPrefectures().map(
+      ({ prefCode, prefName }): Prefecture => ({
+        id: String(prefCode),
+        value: prefName,
+        totalPopulation: [],
+      })
+    )
+  );
+
   const [checkedPrefectureIds, setCheckedPrefectureIds] = useState<string[]>(
     []
   );
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const targetId = e.currentTarget.id;
-    let updatedCheckedPrefectureIds = [...checkedPrefectureIds];
+  const [series, setSeries] = useState<LineChartProps["series"]>([]);
 
+  const handleOnChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const targetId = e.currentTarget.id;
+
+    let updatedCheckedPrefectureIds = [...checkedPrefectureIds];
     if (checkedPrefectureIds.includes(targetId)) {
       updatedCheckedPrefectureIds = checkedPrefectureIds.filter(
         (id) => id !== targetId
@@ -28,8 +45,29 @@ export const Main = ({ prefectures }: MainProps) => {
     } else {
       updatedCheckedPrefectureIds.push(targetId);
     }
-
     setCheckedPrefectureIds(updatedCheckedPrefectureIds);
+
+    const targetPrefecture = prefectures.find((p) => p.id === targetId);
+    if (!targetPrefecture) {
+      return;
+    }
+
+    if (targetPrefecture.totalPopulation.length === 0) {
+      targetPrefecture.totalPopulation = await getTotalPopulationBy({
+        prefCode: Number(targetId),
+      });
+    }
+    setPrefectures([...prefectures]);
+
+    setSeries(
+      prefectures
+        .filter((pref) => updatedCheckedPrefectureIds.includes(pref.id))
+        .map((pref) => ({
+          type: "line",
+          name: pref.value,
+          data: pref.totalPopulation.map((p) => p.value),
+        }))
+    );
   };
 
   const checkboxFilterProps: CheckBoxFilterProps = {
@@ -49,7 +87,9 @@ export const Main = ({ prefectures }: MainProps) => {
         <div className="prefecture">
           <CheckBoxFilter {...checkboxFilterProps} />
         </div>
-        <div className="population-graph"></div>
+        <div className="population-graph">
+          <LineChart series={series} />
+        </div>
       </main>
     </div>
   );
