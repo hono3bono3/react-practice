@@ -1,4 +1,4 @@
-import { ResasClient } from "../../middleware/Resas";
+import { ResasClient } from "../..//middleware/Resas";
 
 type getPopulationCompositionQuery = {
   prefCode: number;
