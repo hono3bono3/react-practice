@@ -31,6 +31,9 @@ const defaultOptions: Highcharts.Options = {
     verticalAlign: "middle",
   },
   series: [],
+  credits: {
+    enabled: false,
+  },
 };
 
 export type LineChartProps = {
